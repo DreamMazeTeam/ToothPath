@@ -33,7 +33,7 @@ void loop()
 {
     LOG("U = ");
     LOG(ina219.getBusVoltage_V() + ina219.getShuntVoltage_mV() / 1000);
-    LOG(" V");
+    LOGLN(" V");
 
     LOG(ina219.getCurrent_mA() / 1000);
     LOGLN(" A");
