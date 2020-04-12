@@ -36,7 +36,7 @@ void loop()
     LOG(" V");
 
     LOG(ina219.getCurrent_mA() / 1000);
-    LOGLN(" mA");
+    LOGLN(" A");
 
     LOG(ina219.getPower_mW() / 1000);
     LOGLN(" W");
