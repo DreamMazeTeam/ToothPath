@@ -20,7 +20,7 @@
 
 #endif
 
-Adafruit_INA219 ina219(0x41);
+Adafruit_INA219 ina219(0x40);
 
 void setup() 
 {
