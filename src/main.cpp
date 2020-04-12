@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#include <Wire.h>
+
+#include "Adafruit_INA219.h"
 
 #define __DEBUG__ 1
 
@@ -17,12 +20,26 @@
 
 #endif
 
+Adafruit_INA219 ina219(0x41);
+
 void setup() 
 {
     DBG_INIT(DBG_SPEED);
+
+    ina219.begin();
 }
 
 void loop()
 {
+    LOG("U = ");
+    LOG(ina219.getBusVoltage_V() + ina219.getShuntVoltage_mV() / 1000);
+    LOG(" V");
 
+    LOG(ina219.getCurrent_mA() / 1000);
+    LOGLN(" mA");
+
+    LOG(ina219.getPower_mW() / 1000);
+    LOGLN(" W");
+
+    delay(200);
 }
