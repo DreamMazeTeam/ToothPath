@@ -1,9 +1,12 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+
 #include "Adafruit_INA219.h"
 
+
 #define __DEBUG__ 1
+
 
 #if __DEBUG__ == 1
 
@@ -20,7 +23,13 @@
 
 #endif
 
+
+#define LED_PIN     13
+#define SENSETIVITY 700
+
+
 Adafruit_INA219 ina219(0x40);
+
 
 void setup() 
 {
@@ -29,17 +38,22 @@ void setup()
     ina219.begin();
 }
 
-void loop()
+
+void tick()
 {
-    LOG("U = ");
-    LOG(ina219.getBusVoltage_V() + ina219.getShuntVoltage_mV() / 1000);
-    LOGLN(" V");
+    if (ina219.getCurrent_mA() >= SENSETIVITY)
+    {
+        digitalWrite(LED_PIN, HIGH);
+    }
 
-    LOG(ina219.getCurrent_mA() / 1000);
-    LOGLN(" A");
+    if (digitalRead(LED_PIN)) 
+    {
+        digitalWrite(LED_PIN, LOW);
+    }
+}
 
-    LOG(ina219.getPower_mW() / 1000);
-    LOGLN(" W");
 
-    delay(200);
+void loop()
+{   
+    tick();
 }
