@@ -45,11 +45,11 @@ void tick()
     {
         digitalWrite(LED_PIN, HIGH);
     }
-
-    if (digitalRead(LED_PIN)) 
+    else
     {
         digitalWrite(LED_PIN, LOW);
     }
+    
 }
 
 
