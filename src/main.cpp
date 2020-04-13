@@ -197,6 +197,7 @@ void setup()
 void loop()
 {   
     engines_tick();
+    what_the_volt();
 
     EngineDirection = getDirectionFromFlasks();
     setEngineDirection(EngineDirection);
