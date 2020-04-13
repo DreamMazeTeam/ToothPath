@@ -43,6 +43,10 @@
 
 Adafruit_INA219 ina219(0x40);
 
+void real_function()
+{
+    
+}
 
 void setup() 
 {
@@ -59,6 +63,7 @@ void setup()
     digitalWrite(Y_FLASK_PIN-1, HIGH);
     digitalWrite(X_FLASK_PIN-1, HIGH);
 }
+
 
 
 void loop()
