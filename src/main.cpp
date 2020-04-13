@@ -45,6 +45,7 @@
 
 #define SENSETIVITY        700
 #define ENGINE_TICK_DELAY  100
+#define VOLT_TICK_DELAY    100
 
 Adafruit_INA219 ina219(0x40);
 
@@ -122,7 +123,6 @@ uint32_t engines_timer = 0;
 int xFlaskPrev = xFlask;
 int yFlaskPrev = yFlask;
 
-
 void engines_tick()
 {
     int x = digitalRead(X_FLASK_PIN);
@@ -142,28 +142,38 @@ void engines_tick()
     yFlaskPrev = y;
 }
 
+uint32_t volt_tick_timer = 0;
+
 void what_the_volt () 
 { 
-  uint16_t vol = analogRead(BATTERY_PIN); 
-  LOGLN(vol); 
-   if  ((vol>=650)&&(vol<=760))
-  {
-        digitalWrite(RED_LED_PIN,HIGH);
-        LOGLN( "RED" ) ; 
-  }
-  else if ((vol>=760)&&(vol<=860))
-  {
-        digitalWrite(YELLOW_LED_PIN,HIGH);
-        LOGLN( "YELLOW" ) ; 
-  }
-  else if(vol>=900)
-  {   
-        digitalWrite(GREEN_LED_PIN,HIGH);
-        LOGLN( "GREEN" ) ; 
-  }
-  else { 
-    LOGLN( " LOL " ) ; 
- } 
+    if ((millis() - volt_tick_timer) >= VOLT_TICK_DELAY)
+    {
+        uint16_t vol = analogRead(BATTERY_PIN); 
+
+        LOGLN(vol); 
+
+        if ((vol >= 650) && (vol <= 760))
+        {
+            digitalWrite(RED_LED_PIN, HIGH);
+            LOGLN( "RED" ); 
+        }
+        else if ((vol >= 760) && (vol <= 860))
+        {
+            digitalWrite(YELLOW_LED_PIN, HIGH);
+            LOGLN( "YELLOW" ); 
+        }
+        else if(vol>=900)
+        {   
+            digitalWrite(GREEN_LED_PIN, HIGH);
+            LOGLN( "GREEN" ); 
+        }
+        else
+        { 
+            LOGLN( " LOL " ); 
+        } 
+
+        volt_tick_timer = millis();
+    }
 }
 
 void setup() 
