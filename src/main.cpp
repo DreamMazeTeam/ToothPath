@@ -130,6 +130,13 @@ void engines_tick()
 
     if ((millis() - engines_timer) >= ENGINE_TICK_DELAY)
     {
+        if (digitalRead(BTN_LOWWER_PIN)){
+            btnState = 0;
+        }
+        else if (digitalRead(BTN_UPPER_PIN)){
+            btnState = 1;
+        }
+
         if (xFlaskPrev == x)
             xFlask = x;
         if (yFlaskPrev == y)
