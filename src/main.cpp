@@ -122,6 +122,7 @@ uint32_t engines_timer = 0;
 int xFlaskPrev = xFlask;
 int yFlaskPrev = yFlask;
 
+
 void engines_tick()
 {
     int x = digitalRead(X_FLASK_PIN);
@@ -139,6 +140,30 @@ void engines_tick()
 
     xFlaskPrev = x;
     yFlaskPrev = y;
+}
+
+void what_the_volt () 
+{ 
+  uint16_t vol = analogRead(BATTERY_PIN); 
+  LOGLN(vol); 
+   if  ((vol>=650)&&(vol<=760))
+  {
+        digitalWrite(RED_LED_PIN,HIGH);
+        LOGLN( "RED" ) ; 
+  }
+  else if ((vol>=760)&&(vol<=860))
+  {
+        digitalWrite(YELLOW_LED_PIN,HIGH);
+        LOGLN( "YELLOW" ) ; 
+  }
+  else if(vol>=900)
+  {   
+        digitalWrite(GREEN_LED_PIN,HIGH);
+        LOGLN( "GREEN" ) ; 
+  }
+  else { 
+    LOGLN( " LOL " ) ; 
+ } 
 }
 
 void setup() 
