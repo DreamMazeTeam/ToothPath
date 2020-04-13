@@ -65,3 +65,6 @@ void loop()
 {   
     
 }
+void salam( ){
+    Serial.println("lol");
+}
