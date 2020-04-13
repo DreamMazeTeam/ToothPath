@@ -192,6 +192,9 @@ void setup()
     pinMode(GREEN_LED_PIN, OUTPUT);
     pinMode(YELLOW_LED_PIN, OUTPUT);
 
+    pinMode(R_ENGINE_PIN, OUTPUT);
+    pinMode(L_ENGINE_PIN, OUTPUT);
+
     pinMode(Y_FLASK_PIN-1, OUTPUT);
     pinMode(X_FLASK_PIN-1, OUTPUT);
 
