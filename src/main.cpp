@@ -44,6 +44,7 @@
 
 #define BATTERY_PIN     PIN_A2
 
+#define SENS_TICK_DELAY    200
 #define SENSETIVITY        550
 #define ENGINE_TICK_DELAY  100
 #define VOLT_TICK_DELAY    100
@@ -120,9 +121,12 @@ Direction getDirectionFromFlasks()
 }
 
 uint32_t engines_timer = 0;
+uint32_t sens_timer = 0;
 
 int xFlaskPrev = xFlask;
 int yFlaskPrev = yFlask;
+
+uint8_t isSensLedOn = false;
 
 void engines_tick()
 {
@@ -130,15 +134,19 @@ void engines_tick()
     int y = digitalRead(Y_FLASK_PIN);
 
     float power = ina219.getCurrent_mA();
-    if (power >= SENSETIVITY) {
+    if (power >= SENSETIVITY or power <= -SENSETIVITY)
+    {
         digitalWrite(SENS_LED_PIN, HIGH);
+        sens_timer = millis();
+        isSensLedOn = true;
     }
-    else if (power <= -SENSETIVITY) {
-        digitalWrite(SENS_LED_PIN, HIGH);
-    }
-    else {
+
+    if (isSensLedOn && ((millis() - sens_timer) >= SENS_TICK_DELAY))
+    {
         digitalWrite(SENS_LED_PIN, LOW);
+        isSensLedOn = false;
     }
+    
 
     if ((millis() - engines_timer) >= ENGINE_TICK_DELAY)
     {
