@@ -34,6 +34,7 @@
 #define RED_LED_PIN          6
 #define YELLOW_LED_PIN       7
 #define GREEN_LED_PIN        8
+#define SENS_LED_PIN        13
 
 #define Y_FLASK_PIN         12
 #define X_FLASK_PIN         10
@@ -43,7 +44,7 @@
 
 #define BATTERY_PIN     PIN_A2
 
-#define SENSETIVITY        700
+#define SENSETIVITY        550
 #define ENGINE_TICK_DELAY  100
 #define VOLT_TICK_DELAY    100
 
@@ -145,6 +146,17 @@ void engines_tick()
         engines_timer = millis();
     }
 
+    float power = ina219.getCurrent_mA();
+    if (power >= SENSETIVITY) {
+        digitalWrite(SENS_LED_PIN, HIGH);
+    }
+    else if (power <= -SENSETIVITY) {
+        digitalWrite(SENS_LED_PIN, HIGH);
+    }
+    else {
+        digitalWrite(SENS_LED_PIN, LOW);
+    }
+
     xFlaskPrev = x;
     yFlaskPrev = y;
 }
@@ -208,7 +220,5 @@ void loop()
     what_the_volt();
 
     EngineDirection = getDirectionFromFlasks();
-    setEngineDirection(EngineDirection);
-
-    LOGLN(ina219.getCurrent_mA());
+    setEngineDirection(EngineDirection); 
 }
