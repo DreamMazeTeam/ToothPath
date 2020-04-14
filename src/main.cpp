@@ -129,6 +129,17 @@ void engines_tick()
     int x = digitalRead(X_FLASK_PIN);
     int y = digitalRead(Y_FLASK_PIN);
 
+    float power = ina219.getCurrent_mA();
+    if (power >= SENSETIVITY) {
+        digitalWrite(SENS_LED_PIN, HIGH);
+    }
+    else if (power <= -SENSETIVITY) {
+        digitalWrite(SENS_LED_PIN, HIGH);
+    }
+    else {
+        digitalWrite(SENS_LED_PIN, LOW);
+    }
+
     if ((millis() - engines_timer) >= ENGINE_TICK_DELAY)
     {
         if (digitalRead(BTN_LOWWER_PIN)){
@@ -144,17 +155,6 @@ void engines_tick()
             yFlask = y;
 
         engines_timer = millis();
-    }
-
-    float power = ina219.getCurrent_mA();
-    if (power >= SENSETIVITY) {
-        digitalWrite(SENS_LED_PIN, HIGH);
-    }
-    else if (power <= -SENSETIVITY) {
-        digitalWrite(SENS_LED_PIN, HIGH);
-    }
-    else {
-        digitalWrite(SENS_LED_PIN, LOW);
     }
 
     xFlaskPrev = x;
