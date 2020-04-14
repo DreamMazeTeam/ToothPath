@@ -202,8 +202,6 @@ void setup()
     digitalWrite(X_FLASK_PIN-1, HIGH);
 }
 
-
-
 void loop()
 {   
     engines_tick();
@@ -211,4 +209,6 @@ void loop()
 
     EngineDirection = getDirectionFromFlasks();
     setEngineDirection(EngineDirection);
+
+    LOGLN(ina219.getCurrent_mA());
 }
