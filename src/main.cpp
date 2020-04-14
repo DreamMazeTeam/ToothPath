@@ -5,7 +5,7 @@
 #include "Adafruit_INA219.h"
 
 
-#define __DEBUG__ 1
+#define __DEBUG__ 0
 
 
 #if __DEBUG__ == 1
