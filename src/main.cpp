@@ -5,7 +5,7 @@
 #include "Adafruit_INA219.h"
 
 
-#define __DEBUG__ 0
+#define __DEBUG__ 1
 
 
 #if __DEBUG__ == 1
@@ -39,10 +39,10 @@
 #define Y_FLASK_PIN         12
 #define X_FLASK_PIN         10
 
-#define BTN_UPPER_PIN   PIN_A1
-#define BTN_LOWWER_PIN  PIN_A0
+#define BTN_UPPER_PIN       A1
+#define BTN_LOWWER_PIN      A0
 
-#define BATTERY_PIN     PIN_A2
+#define BATTERY_PIN         A2
 
 #define SENS_TICK_DELAY    200
 #define SENSETIVITY        550
@@ -60,20 +60,20 @@ int btnState = 0;
 
 void setEngineDirection(Direction dir)
 {
-    LOG("Engines in pos -> ");
+    //LOG("Engines in pos -> ");
 
     switch (dir)
     {
     case Direction::Left:
         digitalWrite(L_ENGINE_PIN, HIGH);
         digitalWrite(R_ENGINE_PIN, LOW);
-        LOGLN("Left");
+        //LOGLN("Left");
         break;
 
     case Direction::Right:
         digitalWrite(L_ENGINE_PIN, LOW);
         digitalWrite(R_ENGINE_PIN, HIGH);
-        LOGLN("Right");
+       // LOGLN("Right");
         break;
 
     case Direction::No:
@@ -86,6 +86,9 @@ void setEngineDirection(Direction dir)
 
 Direction getDirectionFromFlasks()
 {
+    //LOG(xFlask);
+    //LOG(yFlask);
+
     if (btnState)
     {
         if (xFlask == LEFT && yFlask == DOWN) {
@@ -152,9 +155,13 @@ void engines_tick()
     {
         if (digitalRead(BTN_LOWWER_PIN)){
             btnState = 0;
+            LOG("knipka LOW ");
+            LOGLN(btnState);
         }
         else if (digitalRead(BTN_UPPER_PIN)){
             btnState = 1;
+            LOG("knipka UPPER ");
+            LOGLN(btnState);
         }
 
         if (xFlaskPrev == x)
@@ -182,15 +189,21 @@ void what_the_volt ()
         if ((vol >= 650) && (vol <= 760))
         {
             digitalWrite(RED_LED_PIN, HIGH);
+            digitalWrite(YELLOW_LED_PIN, LOW);
+            digitalWrite(GREEN_LED_PIN, LOW);
             LOGLN( "RED" ); 
         }
         else if ((vol >= 760) && (vol <= 860))
         {
+            digitalWrite(RED_LED_PIN, LOW);
             digitalWrite(YELLOW_LED_PIN, HIGH);
+            digitalWrite(GREEN_LED_PIN, LOW);
             LOGLN( "YELLOW" ); 
         }
         else if(vol>=900)
         {   
+            digitalWrite(RED_LED_PIN, LOW);
+            digitalWrite(YELLOW_LED_PIN, LOW);
             digitalWrite(GREEN_LED_PIN, HIGH);
             LOGLN( "GREEN" ); 
         }
@@ -212,14 +225,23 @@ void setup()
     pinMode(GREEN_LED_PIN, OUTPUT);
     pinMode(YELLOW_LED_PIN, OUTPUT);
 
+    pinMode(BTN_UPPER_PIN,INPUT);
+    pinMode(BTN_LOWWER_PIN,INPUT);
+
+
     pinMode(R_ENGINE_PIN, OUTPUT);
     pinMode(L_ENGINE_PIN, OUTPUT);
 
     pinMode(Y_FLASK_PIN-1, OUTPUT);
     pinMode(X_FLASK_PIN-1, OUTPUT);
 
+    pinMode(Y_FLASK_PIN, INPUT);
+    pinMode(X_FLASK_PIN, INPUT);
+
     digitalWrite(Y_FLASK_PIN-1, HIGH);
     digitalWrite(X_FLASK_PIN-1, HIGH);
+    LOGLN("aye");
+
 }
 
 void loop()
