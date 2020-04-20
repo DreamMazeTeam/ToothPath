@@ -60,20 +60,20 @@ int btnState = 0;
 
 void setEngineDirection(Direction dir)
 {
-    //LOG("Engines in pos -> ");
+    LOG("Engines in pos -> ");
 
     switch (dir)
     {
     case Direction::Left:
         digitalWrite(L_ENGINE_PIN, HIGH);
         digitalWrite(R_ENGINE_PIN, LOW);
-        //LOGLN("Left");
+        LOGLN("Left");
         break;
 
     case Direction::Right:
         digitalWrite(L_ENGINE_PIN, LOW);
         digitalWrite(R_ENGINE_PIN, HIGH);
-       // LOGLN("Right");
+        LOGLN("Right");
         break;
 
     case Direction::No:
@@ -86,9 +86,6 @@ void setEngineDirection(Direction dir)
 
 Direction getDirectionFromFlasks()
 {
-    //LOG(xFlask);
-    //LOG(yFlask);
-
     if (btnState)
     {
         if (xFlask == LEFT && yFlask == DOWN) {
@@ -155,13 +152,9 @@ void engines_tick()
     {
         if (digitalRead(BTN_LOWWER_PIN)){
             btnState = 0;
-            LOG("knipka LOW ");
-            LOGLN(btnState);
         }
         else if (digitalRead(BTN_UPPER_PIN)){
             btnState = 1;
-            LOG("knipka UPPER ");
-            LOGLN(btnState);
         }
 
         if (xFlaskPrev == x)
@@ -170,6 +163,7 @@ void engines_tick()
             yFlask = y;
 
         engines_timer = millis();
+        LOGLN("Engine Tick");
     }
 
     xFlaskPrev = x;
@@ -207,10 +201,6 @@ void what_the_volt ()
             digitalWrite(GREEN_LED_PIN, HIGH);
             LOGLN( "GREEN" ); 
         }
-        else
-        { 
-            LOGLN( " LOL " ); 
-        } 
 
         volt_tick_timer = millis();
     }
@@ -240,8 +230,6 @@ void setup()
 
     digitalWrite(Y_FLASK_PIN-1, HIGH);
     digitalWrite(X_FLASK_PIN-1, HIGH);
-    LOGLN("aye");
-
 }
 
 void loop()
