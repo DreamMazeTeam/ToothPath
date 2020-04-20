@@ -199,8 +199,6 @@ void what_the_volt ()
     {
         uint16_t vol = analogRead(BATTERY_PIN); 
 
-        LOGLN(vol); 
-
         if ((vol >= 650) && (vol <= 760))
         {
             digitalWrite(RED_LED_PIN, HIGH);
