@@ -44,7 +44,7 @@
 
 #define BATTERY_PIN         A2
 
-#define SENS_TICK_DELAY    200
+#define SENS_TICK_DELAY    3000
 #define SENSETIVITY        550
 #define ENGINE_TICK_DELAY  100
 #define VOLT_TICK_DELAY    100
