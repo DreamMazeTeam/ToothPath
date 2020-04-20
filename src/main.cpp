@@ -44,9 +44,9 @@
 
 #define BATTERY_PIN         A2
 
-#define SENS_TICK_DELAY    3000
+#define SENS_TICK_DELAY    200
 #define SENSETIVITY        550
-#define ENGINE_TICK_DELAY  100
+#define ENGINE_TICK_DELAY  500
 #define VOLT_TICK_DELAY    100
 
 Adafruit_INA219 ina219(0x40);
