@@ -146,11 +146,8 @@ int yFlaskPrev = yFlask;
 
 uint8_t isSensLedOn = false;
 
-void engines_tick()
+void sens_tick()
 {
-    int x = digitalRead(X_FLASK_PIN);
-    int y = digitalRead(Y_FLASK_PIN);
-
     uint32_t current_ms = millis();
 
     float power = ina219.getCurrent_mA();
@@ -166,7 +163,14 @@ void engines_tick()
         digitalWrite(SENS_LED_PIN, LOW);
         isSensLedOn = false;
     }
-    
+}
+
+void engines_tick()
+{
+    int x = digitalRead(X_FLASK_PIN);
+    int y = digitalRead(Y_FLASK_PIN);
+
+    uint32_t current_ms = millis();
 
     if ((current_ms - engines_timer) >= ENGINE_TICK_DELAY)
     {
@@ -264,6 +268,7 @@ void setup()
 
 void loop()
 {   
+    sens_tick();
     engines_tick();
     what_the_volt();
 
