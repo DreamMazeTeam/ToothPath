@@ -15,6 +15,10 @@
     #define LOGLN(x)    Serial.println((x))
     #define DBG_INIT(x)   Serial.begin((x))
 
+    // #define BATTERY_LOG
+    // #define ENGINE_LOG
+    #define TICKS_LOG
+
 #else
 
     #define LOG(x) 
@@ -60,26 +64,40 @@ int btnState = 0;
 
 void setEngineDirection(Direction dir)
 {
-    LOG("Engines in pos -> ");
+    #ifdef ENGINE_LOG
+        LOG("Engines in pos -> ");
+    #endif
 
     switch (dir)
     {
     case Direction::Left:
         digitalWrite(L_ENGINE_PIN, HIGH);
         digitalWrite(R_ENGINE_PIN, LOW);
-        LOGLN("Left");
+
+        #ifdef ENGINE_LOG
+            LOGLN("Left");
+        #endif
+
         break;
 
     case Direction::Right:
         digitalWrite(L_ENGINE_PIN, LOW);
         digitalWrite(R_ENGINE_PIN, HIGH);
-        LOGLN("Right");
+
+        #ifdef ENGINE_LOG
+            LOGLN("Right");
+        #endif
+
         break;
 
     case Direction::No:
         digitalWrite(L_ENGINE_PIN, LOW);
         digitalWrite(R_ENGINE_PIN, LOW);
-        LOGLN("No");
+
+        #ifdef ENGINE_LOG
+            LOGLN("No");
+        #endif
+
         break;
     }
 }
@@ -163,7 +181,10 @@ void engines_tick()
             yFlask = y;
 
         engines_timer = millis();
-        LOGLN("Engine Tick");
+
+        #ifdef TICKS_LOG
+            LOGLN("Engine Tick");
+        #endif
     }
 
     xFlaskPrev = x;
@@ -185,21 +206,30 @@ void what_the_volt ()
             digitalWrite(RED_LED_PIN, HIGH);
             digitalWrite(YELLOW_LED_PIN, LOW);
             digitalWrite(GREEN_LED_PIN, LOW);
-            LOGLN( "RED" ); 
+
+            #ifdef BATTERY_LOG
+                LOGLN( "RED" ); 
+            #endif
         }
         else if ((vol >= 760) && (vol <= 860))
         {
             digitalWrite(RED_LED_PIN, LOW);
             digitalWrite(YELLOW_LED_PIN, HIGH);
             digitalWrite(GREEN_LED_PIN, LOW);
-            LOGLN( "YELLOW" ); 
+
+            #ifdef BATTERY_LOG
+                LOGLN( "YELLOW" );
+            #endif 
         }
         else if(vol>=900)
         {   
             digitalWrite(RED_LED_PIN, LOW);
             digitalWrite(YELLOW_LED_PIN, LOW);
             digitalWrite(GREEN_LED_PIN, HIGH);
-            LOGLN( "GREEN" ); 
+
+            #ifdef BATTERY_LOG
+                LOGLN( "GREEN" ); 
+            #endif
         }
 
         volt_tick_timer = millis();
