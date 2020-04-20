@@ -151,22 +151,24 @@ void engines_tick()
     int x = digitalRead(X_FLASK_PIN);
     int y = digitalRead(Y_FLASK_PIN);
 
+    uint32_t current_ms = millis();
+
     float power = ina219.getCurrent_mA();
     if (power >= SENSETIVITY or power <= -SENSETIVITY)
     {
         digitalWrite(SENS_LED_PIN, HIGH);
-        sens_timer = millis();
+        sens_timer = current_ms;
         isSensLedOn = true;
     }
 
-    if (isSensLedOn && ((millis() - sens_timer) >= SENS_TICK_DELAY))
+    if (isSensLedOn && ((current_ms - sens_timer) >= SENS_TICK_DELAY))
     {
         digitalWrite(SENS_LED_PIN, LOW);
         isSensLedOn = false;
     }
     
 
-    if ((millis() - engines_timer) >= ENGINE_TICK_DELAY)
+    if ((current_ms - engines_timer) >= ENGINE_TICK_DELAY)
     {
         if (digitalRead(BTN_LOWWER_PIN)){
             btnState = 0;
@@ -180,7 +182,7 @@ void engines_tick()
         if (yFlaskPrev == y)
             yFlask = y;
 
-        engines_timer = millis();
+        engines_timer = current_ms;
 
         #ifdef TICKS_LOG
             LOGLN("Engine Tick");
